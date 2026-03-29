@@ -1,0 +1,19 @@
+
+> infinity-at-tea@0.0.0 lint
+> eslint .
+
+
+D:\infinity-at-tea\src\components\ColorPalette.jsx
+  7:37  error  React Hook "useState" is called conditionally. React Hooks must be called in the exact same order in every component render. Did you accidentally call a React Hook after an early return?  react-hooks/rules-of-hooks
+
+D:\infinity-at-tea\src\context\AuthContext.jsx
+  68:17  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\infinity-at-tea\src\pages\Home.jsx
+  4:8  error  Parsing error: Identifier 'OutputResults' has already been declared
+
+D:\infinity-at-tea\src\pages\KitDetails.jsx
+  19:14  error  'err' is defined but never used  no-unused-vars
+
+✖ 4 problems (4 errors, 0 warnings)
+

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BUSINESS_TYPES, LANGUAGES } from '../utils/constants';
-import { Store, MapPin, Phone, Type, MessageSquare, Globe, Sparkles } from 'lucide-react';
+import { Store, MapPin, Phone, Type, MessageSquare, Globe, Sparkles, Wand2 } from 'lucide-react';
 
 const InputForm = ({ formData, setFormData, onSubmit, loading }) => {
   const handleChange = (e) => {
@@ -8,17 +8,37 @@ const InputForm = ({ formData, setFormData, onSubmit, loading }) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleInspireMe = () => {
+    setFormData({
+      businessName: 'Spicy Chai Corner',
+      businessType: 'Tea Shop',
+      location: 'Hyderabad',
+      phoneNumber: '+91 9123456780',
+      description: 'The best cutting chai and onion samosas in town. Perfect spot for evening hangouts.',
+      language: 'English'
+    });
+  };
+
   return (
-    <div className="card">
-      <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 text-tea-900">
-        <Store className="text-tea-500" size={24} />
-        Business Details
-      </h2>
+    <div className="card border-0 md:border md:border-white/10 mt-6 lg:mt-0 relative z-20">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold flex items-center gap-2 text-zinc-100">
+          <Store className="text-amber-500" size={24} />
+          Business Details
+        </h2>
+        <button
+          type="button"
+          onClick={handleInspireMe}
+          className="text-sm flex items-center gap-1.5 text-zinc-300 hover:text-amber-400 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full transition-colors border border-white/10"
+        >
+          <Wand2 size={14} /> Inspire Me
+        </button>
+      </div>
       
       <form onSubmit={onSubmit} className="space-y-4">
         {/* Business Name */}
         <div>
-          <label className="block text-sm font-medium text-tea-700 mb-1 flex items-center gap-2">
+          <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
             <Type size={16} /> Business Name
           </label>
           <input
@@ -35,14 +55,14 @@ const InputForm = ({ formData, setFormData, onSubmit, loading }) => {
         {/* Business Type & Language */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-tea-700 mb-1 flex items-center gap-2">
+            <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
               <Store size={16} /> Business Type
             </label>
             <select
               name="businessType"
               value={formData.businessType}
               onChange={handleChange}
-              className="input-field"
+              className="input-field [&>option]:text-zinc-900"
             >
               {BUSINESS_TYPES.map(type => (
                 <option key={type} value={type}>{type}</option>
@@ -50,14 +70,14 @@ const InputForm = ({ formData, setFormData, onSubmit, loading }) => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-tea-700 mb-1 flex items-center gap-2">
+            <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
               <Globe size={16} /> Output Language
             </label>
             <select
               name="language"
               value={formData.language}
               onChange={handleChange}
-              className="input-field"
+              className="input-field [&>option]:text-zinc-900"
             >
               {LANGUAGES.map(lang => (
                 <option key={lang} value={lang}>{lang}</option>
@@ -69,7 +89,7 @@ const InputForm = ({ formData, setFormData, onSubmit, loading }) => {
         {/* Location & Phone */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-tea-700 mb-1 flex items-center gap-2">
+            <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
               <MapPin size={16} /> Location
             </label>
             <input
@@ -83,7 +103,7 @@ const InputForm = ({ formData, setFormData, onSubmit, loading }) => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-tea-700 mb-1 flex items-center gap-2">
+            <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
               <Phone size={16} /> WhatsApp Number
             </label>
             <input
@@ -100,7 +120,7 @@ const InputForm = ({ formData, setFormData, onSubmit, loading }) => {
 
         {/* Description */}
         <div>
-          <label className="block text-sm font-medium text-tea-700 mb-1 flex items-center gap-2">
+          <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
             <MessageSquare size={16} /> One Line About Business
           </label>
           <textarea

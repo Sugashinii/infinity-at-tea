@@ -20,7 +20,7 @@ export const generateBusinessKit = async (formData) => {
     2. A Professional Business Description (3-4 sentences).
     3. An engaging Instagram Bio (with emojis).
     4. A promotional WhatsApp Status text suitable to update customers about the business.
-    5. A recommended color palette for their brand (provide exactly 3 hex codes in an array).
+    5. A recommended color palette for their brand (provide exactly 5 hex codes in an array).
 
     Respond ONLY with a valid JSON object strictly following this structure:
     {
@@ -28,7 +28,7 @@ export const generateBusinessKit = async (formData) => {
       "description": "string",
       "instagramBio": "string",
       "whatAppStatus": "string",
-      "colorPalette": ["#hex1", "#hex2", "#hex3"]
+      "colorPalette": ["#hex1", "#hex2", "#hex3", "#hex4", "#hex5"]
     }
     `;
 

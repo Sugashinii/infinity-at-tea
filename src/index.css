@@ -4,20 +4,55 @@
 
 @layer base {
   body {
-    @apply bg-tea-50 text-tea-950 font-sans antialiased;
+    @apply bg-[#0f0a05] text-zinc-100 font-sans antialiased;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-tea-600 outline-none text-white px-6 py-2 rounded-lg font-medium hover:bg-tea-700 transition-colors focus:ring-2 focus:ring-tea-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-amber-600 outline-none text-white px-6 py-2 rounded-lg font-medium hover:bg-amber-500 transition-all focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-[#0f0a05] disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-amber-900/30;
   }
-  
+
   .input-field {
-    @apply w-full px-4 py-2 bg-white border outline-none border-tea-200 rounded-lg focus:ring-2 focus:ring-tea-500 focus:border-tea-500 transition-colors shadow-sm;
+    @apply w-full px-4 py-2 bg-white/5 border outline-none border-white/10 rounded-lg focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-colors shadow-sm text-white placeholder-white/40 backdrop-blur-sm;
   }
-  
+
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-tea-100 p-6;
+    @apply bg-white/5 backdrop-blur-md rounded-xl shadow-lg border border-white/10 p-6;
+  }
+}
+
+@layer utilities {
+  @keyframes steam {
+    0% {
+      transform: translateY(0) scaleX(1) translateX(0);
+      opacity: 0;
+    }
+
+    15% {
+      opacity: 0.6;
+    }
+
+    50% {
+      transform: translateY(-15px) scaleX(1.2) translateX(-2px);
+      opacity: 0.4;
+    }
+
+    100% {
+      transform: translateY(-30px) scaleX(1.5) translateX(2px);
+      opacity: 0;
+    }
+  }
+
+  .steam-1 {
+    animation: steam 2s infinite ease-out;
+  }
+
+  .steam-2 {
+    animation: steam 2s infinite ease-out 0.6s;
+  }
+
+  .steam-3 {
+    animation: steam 2s infinite ease-out 1.2s;
   }
 }

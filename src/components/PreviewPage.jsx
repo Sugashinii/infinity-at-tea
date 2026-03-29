@@ -19,14 +19,14 @@ const PreviewPage = ({ results, formData }) => {
   const primaryTextColor = getContrastColor(primaryColor);
 
   return (
-    <div className="card h-full p-0 overflow-hidden shadow-sm flex flex-col text-sm border-tea-200 border-2">
-      <div className="bg-tea-100 p-3 border-b flex items-center justify-between shrink-0">
+    <div className="card h-full p-0 overflow-hidden shadow-sm flex flex-col text-sm border-white/10 border-2">
+      <div className="bg-zinc-800 p-3 border-b border-zinc-700 flex items-center justify-between shrink-0">
         <div className="flex gap-2">
           <div className="w-3 h-3 rounded-full bg-red-400"></div>
           <div className="w-3 h-3 rounded-full bg-amber-400"></div>
           <div className="w-3 h-3 rounded-full bg-green-400"></div>
         </div>
-        <div className="bg-white px-24 py-1 rounded text-xs text-tea-400 flex items-center gap-2 shadow-sm font-mono flex-grow mx-4 justify-center">
+        <div className="bg-zinc-900 px-24 py-1 rounded text-xs text-zinc-400 flex items-center gap-2 shadow-inner font-mono flex-grow mx-4 justify-center">
           <Globe size={12} /> {formData.businessName.toLowerCase().replace(/\s+/g, '')}.com
         </div>
       </div>
