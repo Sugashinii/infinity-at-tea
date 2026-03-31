@@ -8,7 +8,7 @@ import KitDetails from './pages/KitDetails';
 
 function App() {
   return (
-    <div className="min-h-screen bg-tea-50 font-sans text-tea-950">
+    <div className="min-h-screen bg-[#0f0a05] font-sans text-zinc-100">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

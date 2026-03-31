@@ -1,7 +1,77 @@
-import React from 'react';
-import { BUSINESS_TYPES, LANGUAGES } from '../utils/constants';
-import { Store, MapPin, Phone, Type, MessageSquare, Globe, Sparkles, Wand2 } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { BUSINESS_TYPES, LANGUAGES, COLOR_MOODS } from '../utils/constants';
+import { Store, MapPin, Phone, Type, MessageSquare, Globe, Sparkles, Wand2, Palette, ChevronDown, Check } from 'lucide-react';
 
+/* ── Custom styled dropdown component ──────────────────────── */
+function StyledSelect({ label, icon: Icon, value, options, onChange, name }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // options can be strings or objects { value, label, description }
+  const isObjectOptions = typeof options[0] === 'object';
+  const selectedLabel = isObjectOptions
+    ? options.find(o => o.value === value)?.label || value
+    : value;
+
+  return (
+    <div ref={ref} className="relative">
+      <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
+        <Icon size={16} /> {label}
+      </label>
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="input-field w-full text-left flex items-center justify-between gap-2 cursor-pointer"
+      >
+        <span className="truncate">{selectedLabel}</span>
+        <ChevronDown size={16} className={`text-zinc-500 shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+      </button>
+
+      {open && (
+        <div className="absolute z-50 mt-1 w-full bg-zinc-900/95 backdrop-blur-xl border border-amber-500/30 rounded-xl shadow-2xl shadow-black/40 py-1 max-h-60 overflow-y-auto custom-scrollbar">
+          {options.map((opt) => {
+            const optValue = isObjectOptions ? opt.value : opt;
+            const optLabel = isObjectOptions ? opt.label : opt;
+            const optDesc = isObjectOptions ? opt.description : null;
+            const isSelected = value === optValue;
+
+            return (
+              <button
+                key={optValue}
+                type="button"
+                onClick={() => {
+                  onChange({ target: { name, value: optValue } });
+                  setOpen(false);
+                }}
+                className={`w-full text-left px-3 py-2 text-sm flex items-start gap-2 transition-colors ${
+                  isSelected
+                    ? 'bg-amber-600/15 text-amber-300'
+                    : 'text-zinc-300 hover:bg-white/5 hover:text-white'
+                }`}
+              >
+                <div className="flex-1 min-w-0">
+                  <span className="block truncate">{optLabel}</span>
+                  {optDesc && <span className="block text-xs text-zinc-500 mt-0.5 truncate">{optDesc}</span>}
+                </div>
+                {isSelected && <Check size={16} className="text-amber-400 shrink-0 mt-0.5" />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── InputForm ──────────────────────────────────────────────── */
 const InputForm = ({ formData, setFormData, onSubmit, loading }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,7 +85,8 @@ const InputForm = ({ formData, setFormData, onSubmit, loading }) => {
       location: 'Hyderabad',
       phoneNumber: '+91 9123456780',
       description: 'The best cutting chai and onion samosas in town. Perfect spot for evening hangouts.',
-      language: 'English'
+      language: 'English',
+      colorMood: 'earthy-warm'
     });
   };
 
@@ -52,38 +123,24 @@ const InputForm = ({ formData, setFormData, onSubmit, loading }) => {
           />
         </div>
 
-        {/* Business Type & Language */}
+        {/* Business Type & Language — Custom dropdowns */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
-              <Store size={16} /> Business Type
-            </label>
-            <select
-              name="businessType"
-              value={formData.businessType}
-              onChange={handleChange}
-              className="input-field [&>option]:text-zinc-900"
-            >
-              {BUSINESS_TYPES.map(type => (
-                <option key={type} value={type}>{type}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
-              <Globe size={16} /> Output Language
-            </label>
-            <select
-              name="language"
-              value={formData.language}
-              onChange={handleChange}
-              className="input-field [&>option]:text-zinc-900"
-            >
-              {LANGUAGES.map(lang => (
-                <option key={lang} value={lang}>{lang}</option>
-              ))}
-            </select>
-          </div>
+          <StyledSelect
+            label="Business Type"
+            icon={Store}
+            name="businessType"
+            value={formData.businessType}
+            options={BUSINESS_TYPES}
+            onChange={handleChange}
+          />
+          <StyledSelect
+            label="Output Language"
+            icon={Globe}
+            name="language"
+            value={formData.language}
+            options={LANGUAGES}
+            onChange={handleChange}
+          />
         </div>
 
         {/* Location & Phone */}
@@ -133,6 +190,16 @@ const InputForm = ({ formData, setFormData, onSubmit, loading }) => {
             className="input-field resize-none"
           />
         </div>
+
+        {/* Color Mood Selector */}
+        <StyledSelect
+          label="Color Mood"
+          icon={Palette}
+          name="colorMood"
+          value={formData.colorMood || 'earthy-warm'}
+          options={COLOR_MOODS}
+          onChange={handleChange}
+        />
 
         {/* Submit Button */}
         <button

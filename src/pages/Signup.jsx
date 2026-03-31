@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Coffee, Mail, Lock, User, ArrowRight, Loader2, CheckCircle } from 'lucide-react';
+import Toast from '../components/Toast';
 
 export default function Signup() {
   const [name, setName] = useState('');
@@ -10,6 +11,7 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: '' });
   const { signUp } = useAuth();
   const navigate = useNavigate();
 
@@ -20,6 +22,7 @@ export default function Signup() {
 
     try {
       await signUp(email, password, name);
+      setToast({ show: true, message: `Welcome to Infinity@Tea, ${name}! ☕` });
       setSuccess(true);
     } catch (err) {
       setError(err.message || 'An error occurred during sign up.');
@@ -41,7 +44,7 @@ export default function Signup() {
           </div>
           <h2 className="text-2xl font-bold text-zinc-100 mb-2">Check your email</h2>
           <p className="text-zinc-400 mb-8">
-            We've sent a verification link to <strong>{email}</strong>. Please confirm your email to activate your account.
+            We've sent a verification link to <strong className="text-zinc-200">{email}</strong>. Please confirm your email to activate your account.
           </p>
           <button
             onClick={() => navigate('/login')}
@@ -50,6 +53,12 @@ export default function Signup() {
             Go to Login
           </button>
         </div>
+
+        <Toast
+          message={toast.message}
+          isVisible={toast.show}
+          onClose={() => setToast({ show: false, message: '' })}
+        />
       </div>
     );
   }
@@ -72,7 +81,7 @@ export default function Signup() {
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm border border-red-200">
+          <div className="mb-4 p-3 bg-red-500/10 text-red-400 rounded-lg text-sm border border-red-500/20">
             {error}
           </div>
         )}
@@ -160,6 +169,12 @@ export default function Signup() {
           </p>
         </div>
       </div>
+
+      <Toast
+        message={toast.message}
+        isVisible={toast.show}
+        onClose={() => setToast({ show: false, message: '' })}
+      />
     </div>
   );
 }

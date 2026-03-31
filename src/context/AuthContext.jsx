@@ -29,7 +29,8 @@ export function AuthProvider({ children }) {
       options: {
         data: {
           display_name: displayName,
-        }
+        },
+        emailRedirectTo: 'https://infinity-at-tea.vercel.app',
       }
     });
     if (error) throw error;
@@ -52,7 +53,7 @@ export function AuthProvider({ children }) {
 
   const resetPassword = async (email) => {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/login?reset=true`,
+      redirectTo: 'https://infinity-at-tea.vercel.app/login?reset=true',
     });
     if (error) throw error;
     return data;

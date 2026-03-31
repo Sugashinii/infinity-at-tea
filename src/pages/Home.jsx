@@ -20,7 +20,8 @@ function Home() {
     location: '',
     phoneNumber: '',
     description: '',
-    language: 'English'
+    language: 'English',
+    colorMood: 'earthy-warm'
   });
 
   const handleSubmit = async (e, isRegenerate = false) => {

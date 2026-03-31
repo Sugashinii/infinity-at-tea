@@ -55,4 +55,119 @@
   .steam-3 {
     animation: steam 2s infinite ease-out 1.2s;
   }
+
+  /* Custom scrollbar for dropdown menus */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  /* Modal entrance animation */
+  @keyframes animate-in-keyframe {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  .animate-in {
+    animation: animate-in-keyframe 0.2s ease-out;
+  }
+}
+
+/* ── PDF Capture Light Theme Overrides ──────────────────────── */
+/* Applied temporarily during html2canvas capture so text is     */
+/* visible (dark on white) in the generated PDF.                 */
+.pdf-capture {
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+  border-radius: 0 !important;
+  padding: 16px !important;
+}
+
+/* Force all text to dark colors */
+.pdf-capture * {
+  color: #1a1a1a !important;
+  border-color: #e5e7eb !important;
+  --tw-text-opacity: 1 !important;
+}
+
+/* Cards & sections: white bg with subtle border */
+.pdf-capture .card,
+.pdf-capture [class*="bg-white/5"],
+.pdf-capture [class*="bg-white/10"] {
+  background: #f9fafb !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-color: #e5e7eb !important;
+}
+
+/* Icon accent colors — keep brand colors visible in PDF */
+.pdf-capture .text-amber-500,
+.pdf-capture .text-amber-400 {
+  color: #d97706 !important;
+}
+
+.pdf-capture .text-pink-600 {
+  color: #db2777 !important;
+}
+
+.pdf-capture .text-green-600,
+.pdf-capture .text-green-500 {
+  color: #16a34a !important;
+}
+
+/* Sub-headings & labels slightly lighter */
+.pdf-capture h3,
+.pdf-capture h4 {
+  color: #111827 !important;
+}
+
+.pdf-capture p {
+  color: #374151 !important;
+}
+
+/* Mono text (hex codes) */
+.pdf-capture .font-mono {
+  color: #4b5563 !important;
+}
+
+/* Ensure color swatches keep their inline background */
+.pdf-capture [style*="background-color"] {
+  border: 1px solid #d1d5db !important;
+}
+
+/* QR code area */
+.pdf-capture .bg-white {
+  background: #ffffff !important;
+}
+
+/* Hide interactive buttons from PDF capture */
+.pdf-capture button,
+.pdf-capture input[type="color"] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* But keep the color swatch labels visible (they are in a label, not button) */
+.pdf-capture label[style*="background-color"] {
+  opacity: 1 !important;
+  height: auto !important;
+  overflow: visible !important;
 }

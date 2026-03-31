@@ -57,7 +57,21 @@ const OutputResults = ({ results, formData, onRegenerate, loading, kitId, onColo
     setDownloading(true);
     try {
       const element = contentRef.current;
-      const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+
+      // Temporarily apply light-theme overrides for PDF capture
+      element.classList.add('pdf-capture');
+      // Allow repaint
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+      });
+
+      // Remove overrides immediately
+      element.classList.remove('pdf-capture');
+
       const imgData = canvas.toDataURL('image/png');
       
       const pdf = new jsPDF('p', 'mm', 'a4');
@@ -81,6 +95,8 @@ const OutputResults = ({ results, formData, onRegenerate, loading, kitId, onColo
     } catch (err) {
       console.error("Failed to download PDF", err);
     } finally {
+      // Safety net: ensure class is removed even on error
+      contentRef.current?.classList.remove('pdf-capture');
       setDownloading(false);
     }
   };

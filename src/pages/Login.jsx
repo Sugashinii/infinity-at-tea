@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Coffee, Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
+import Toast from '../components/Toast';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -10,6 +11,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [toast, setToast] = useState({ show: false, message: '' });
   const { signIn, resetPassword } = useAuth();
   const navigate = useNavigate();
 
@@ -24,8 +26,10 @@ export default function Login() {
         await resetPassword(email);
         setMessage('Password reset link sent to your email.');
       } else {
-        await signIn(email, password);
-        navigate('/profile');
+        const data = await signIn(email, password);
+        const displayName = data?.user?.user_metadata?.display_name || email.split('@')[0];
+        setToast({ show: true, message: `Welcome back, ${displayName}! ☕` });
+        setTimeout(() => navigate('/profile'), 1200);
       }
     } catch (err) {
       setError(err.message || 'An error occurred during authentication.');
@@ -56,13 +60,13 @@ export default function Login() {
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm border border-red-200">
+          <div className="mb-4 p-3 bg-red-500/10 text-red-400 rounded-lg text-sm border border-red-500/20">
             {error}
           </div>
         )}
 
         {message && (
-          <div className="mb-4 p-3 bg-green-50 text-green-700 rounded-lg text-sm border border-green-200">
+          <div className="mb-4 p-3 bg-green-500/10 text-green-400 rounded-lg text-sm border border-green-500/20">
             {message}
           </div>
         )}
@@ -160,6 +164,12 @@ export default function Login() {
           )}
         </div>
       </div>
+
+      <Toast
+        message={toast.message}
+        isVisible={toast.show}
+        onClose={() => setToast({ show: false, message: '' })}
+      />
     </div>
   );
 }
